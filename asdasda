@@ -360,6 +360,8 @@ function Kavo.CreateLib(kavName, themeList)
     tabListing.Parent = tabFrames
     tabListing.SortOrder = Enum.SortOrder.LayoutOrder
 
+    _G.tabSelected = _G.tabSelected or {}
+
     pages.Name = "pages"
     pages.Parent = Main
     pages.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -456,12 +458,12 @@ function Kavo.CreateLib(kavName, themeList)
         Objects[tabButton] = "TextColor3"
         tabButton.TextSize = 14.000
         tabButton.BackgroundTransparency = 1
-        tabButton.selected = false
+        _G.tabSelected[tabButton] = false
 
         if first then
             first = false
             page.Visible = true
-            tabButton.selected = true
+            _G.tabSelected[tabButton] = true
             Utility:TweenObject(tabButton, {BackgroundTransparency = 0.89}, 0.2)
             UpdateSize()
         else
@@ -485,22 +487,22 @@ function Kavo.CreateLib(kavName, themeList)
             page.Visible = true
             for i,v in next, tabFrames:GetChildren() do
                 if v:IsA("TextButton") then
-                    v.selected = false
+                    _G.tabSelected[v] = false
                     Utility:TweenObject(v, {BackgroundTransparency = 1}, 0.2)
                 end
             end
-            tabButton.selected = true
+            _G.tabSelected[tabButton] = true
             Utility:TweenObject(tabButton, {BackgroundTransparency = 0.89}, 0.2)
             Utility:TweenObject(Selector, {Position = UDim2.new(0, 0, 0, tabButton.AbsolutePosition.Y - tabFrames.AbsolutePosition.Y + 14)}, 0.2)
         end)
 
         tabButton.MouseEnter:Connect(function()
-            if not tabButton.selected then
+            if not _G.tabSelected[tabButton] then
                 Utility:TweenObject(tabButton, {BackgroundTransparency = 0.89}, 0.2)
             end
         end)
         tabButton.MouseLeave:Connect(function()
-            if not tabButton.selected then
+            if not _G.tabSelected[tabButton] then
                 Utility:TweenObject(tabButton, {BackgroundTransparency = 1}, 0.2)
             end
         end)
