@@ -57,7 +57,7 @@ local themes = {
 	Header = Color3.fromRGB(28, 29, 34),
 	TextColor = Color3.fromRGB(255,255,255),
 	ElementColor = Color3.fromRGB(32, 32, 38),
-	ElementTransparency = 0.5,
+	ElementTransparency = 0.2,
 	ElementBorder = Color3.fromRGB(35, 35, 35)
 }
 local themeStyles = {
@@ -67,7 +67,7 @@ local themeStyles = {
 		Header = Color3.fromRGB(0, 0, 0),
 		TextColor = Color3.fromRGB(255,255,255),
 		ElementColor = Color3.fromRGB(20, 20, 20),
-		ElementTransparency = 0.5,
+		ElementTransparency = 0.2,
 		ElementBorder = Color3.fromRGB(35, 35, 35)
 	},
     LightTheme = {
@@ -76,7 +76,7 @@ local themeStyles = {
     	Header = Color3.fromRGB(200, 200, 200),
     	TextColor = Color3.fromRGB(0,0,0),
     	ElementColor = Color3.fromRGB(224, 224, 224),
-    	ElementTransparency = 0.6,
+    	ElementTransparency = 0.3,
     	ElementBorder = Color3.fromRGB(200, 200, 200)
     },
     BloodTheme = {
@@ -85,7 +85,7 @@ local themeStyles = {
     	Header = Color3.fromRGB(5, 5, 5),
     	TextColor = Color3.fromRGB(255,255,255),
     	ElementColor = Color3.fromRGB(20, 20, 20),
-    	ElementTransparency = 0.5,
+    	ElementTransparency = 0.2,
     	ElementBorder = Color3.fromRGB(35, 35, 35)
     },
     GrapeTheme = {
@@ -94,7 +94,7 @@ local themeStyles = {
     	Header = Color3.fromRGB(36, 28, 41),
     	TextColor = Color3.fromRGB(255,255,255),
     	ElementColor = Color3.fromRGB(74, 58, 84),
-    	ElementTransparency = 0.5,
+    	ElementTransparency = 0.2,
     	ElementBorder = Color3.fromRGB(35, 35, 35)
     },
     Ocean = {
@@ -103,7 +103,7 @@ local themeStyles = {
     	Header = Color3.fromRGB(38, 45, 71),
     	TextColor = Color3.fromRGB(200, 200, 200),
     	ElementColor = Color3.fromRGB(38, 45, 71),
-    	ElementTransparency = 0.5,
+    	ElementTransparency = 0.2,
     	ElementBorder = Color3.fromRGB(35, 35, 35)
     },
     Midnight = {
@@ -112,7 +112,7 @@ local themeStyles = {
     	Header = Color3.fromRGB(57, 81, 105),
     	TextColor = Color3.fromRGB(255, 255, 255),
     	ElementColor = Color3.fromRGB(52, 74, 95),
-    	ElementTransparency = 0.5,
+    	ElementTransparency = 0.2,
     	ElementBorder = Color3.fromRGB(35, 35, 35)
     },
     Sentinel = {
@@ -121,7 +121,7 @@ local themeStyles = {
     	Header = Color3.fromRGB(24, 24, 24),
     	TextColor = Color3.fromRGB(119, 209, 138),
     	ElementColor = Color3.fromRGB(24, 24, 24),
-    	ElementTransparency = 0.5,
+    	ElementTransparency = 0.2,
     	ElementBorder = Color3.fromRGB(35, 35, 35)
     },
     Synapse = {
@@ -130,7 +130,7 @@ local themeStyles = {
     	Header = Color3.fromRGB(36, 38, 35),
     	TextColor = Color3.fromRGB(152, 99, 53),
     	ElementColor = Color3.fromRGB(24, 24, 24),
-    	ElementTransparency = 0.5,
+    	ElementTransparency = 0.2,
     	ElementBorder = Color3.fromRGB(35, 35, 35)
     },
     Serpent = {
@@ -139,7 +139,7 @@ local themeStyles = {
     	Header = Color3.fromRGB(22, 29, 31),
     	TextColor = Color3.fromRGB(255,255,255),
     	ElementColor = Color3.fromRGB(22, 29, 31),
-    	ElementTransparency = 0.5,
+    	ElementTransparency = 0.2,
     	ElementBorder = Color3.fromRGB(35, 35, 35)
     }
 }
@@ -204,7 +204,7 @@ function Kavo.CreateLib(kavName, themeList)
         elseif themeList.ElementColor == nil then
         	themeList.ElementColor = Color3.fromRGB(32, 32, 38)
         elseif themeList.ElementTransparency == nil then
-        	themeList.ElementTransparency = 0.5
+        	themeList.ElementTransparency = 0.2
         elseif themeList.ElementBorder == nil then
         	themeList.ElementBorder = Color3.fromRGB(35, 35, 35)
         end
