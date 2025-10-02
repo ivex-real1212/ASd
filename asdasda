@@ -486,7 +486,6 @@ end
 
 -- Window creation
 function MyOwnUI:CreateWindow(config)
-	print("MyOwnUI:CreateWindow called")
 	config = config or {}
 	local title = config.Title or "My Own UI"
 	local theme = config.Theme or "Dark"
@@ -816,7 +815,8 @@ function MyOwnUI:CreateWindow(config)
 		tabButton.MouseButton1Click:Connect(function()
 			if window.CurrentTab then
 				Tween(window.CurrentTab.Content, {GroupTransparency = 1}, 0.3)
-				task.delay(0.15, function()
+				spawn(function()
+					wait(0.15)
 					window.CurrentTab.Content.Visible = false
 				end)
 				Tween(window.CurrentTab.Button, {BackgroundColor3 = Themes[theme].TabBackground}, 0.2)
@@ -845,7 +845,6 @@ function MyOwnUI:CreateWindow(config)
 		ScreenGui:Destroy()
 	end
 
-	print("MyOwnUI:CreateWindow completed successfully")
 	return window
 end
 
@@ -881,11 +880,11 @@ function MyOwnUI:Notify(title, text, duration)
 	})
 
 	-- Slide in
-	Tween(notif, {Position = UDim2.new(1, -320, 1, -100)}, 0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
-	task.wait(duration)
+	Tween(notif, {Position = UDim2.new(1, -320, 1, -100)}, 0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	wait(duration)
 	-- Slide out
-	Tween(notif, {Position = UDim2.new(1, 20, 1, -100)}, 0.5, Enum.EasingStyle.Back, Enum.EasingDirection.In)
-	task.wait(0.5)
+	Tween(notif, {Position = UDim2.new(1, 20, 1, -100)}, 0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
+	wait(0.5)
 	notif:Destroy()
 end
 
