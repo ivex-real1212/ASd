@@ -642,6 +642,48 @@ local RayfieldLibrary = {
 			InputStroke = Color3.fromRGB(180, 190, 200),
 			PlaceholderColor = Color3.fromRGB(150, 150, 150)
 		},
+
+		Hawk = {
+			TextColor = Color3.fromRGB(255, 255, 255),
+
+			Background = Color3.fromRGB(15, 15, 15),
+			Topbar = Color3.fromRGB(25, 25, 25),
+			Shadow = Color3.fromRGB(0, 0, 0),
+
+			NotificationBackground = Color3.fromRGB(25, 25, 25),
+			NotificationActionsBackground = Color3.fromRGB(35, 35, 35),
+
+			TabBackground = Color3.fromRGB(35, 35, 35),
+			TabStroke = Color3.fromRGB(45, 45, 45),
+			TabBackgroundSelected = Color3.fromRGB(138, 43, 226),
+			TabTextColor = Color3.fromRGB(200, 200, 200),
+			SelectedTabTextColor = Color3.fromRGB(255, 255, 255),
+
+			ElementBackground = Color3.fromRGB(25, 25, 25),
+			ElementBackgroundHover = Color3.fromRGB(35, 35, 35),
+			SecondaryElementBackground = Color3.fromRGB(20, 20, 20),
+			ElementStroke = Color3.fromRGB(45, 45, 45),
+			SecondaryElementStroke = Color3.fromRGB(35, 35, 35),
+
+			SliderBackground = Color3.fromRGB(138, 43, 226),
+			SliderProgress = Color3.fromRGB(138, 43, 226),
+			SliderStroke = Color3.fromRGB(138, 43, 226),
+
+			ToggleBackground = Color3.fromRGB(25, 25, 25),
+			ToggleEnabled = Color3.fromRGB(138, 43, 226),
+			ToggleDisabled = Color3.fromRGB(75, 75, 75),
+			ToggleEnabledStroke = Color3.fromRGB(138, 43, 226),
+			ToggleDisabledStroke = Color3.fromRGB(100, 100, 100),
+			ToggleEnabledOuterStroke = Color3.fromRGB(138, 43, 226),
+			ToggleDisabledOuterStroke = Color3.fromRGB(45, 45, 45),
+
+			DropdownSelected = Color3.fromRGB(35, 35, 35),
+			DropdownUnselected = Color3.fromRGB(25, 25, 25),
+
+			InputBackground = Color3.fromRGB(25, 25, 25),
+			InputStroke = Color3.fromRGB(45, 45, 45),
+			PlaceholderColor = Color3.fromRGB(150, 150, 150)
+		},
 	}
 }
 
@@ -772,7 +814,7 @@ local Debounce = false
 local searchOpen = false
 local Notifications = Rayfield.Notifications
 
-local SelectedTheme = RayfieldLibrary.Theme.Default
+local SelectedTheme = RayfieldLibrary.Theme.Hawk
 
 local function ChangeTheme(Theme)
 	if typeof(Theme) == 'string' then
@@ -1285,8 +1327,8 @@ local function Maximise()
 	TweenService:Create(Topbar.CornerRepair, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {BackgroundTransparency = 0}):Play()
 	TweenService:Create(Topbar.Divider, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {BackgroundTransparency = 0}):Play()
 	TweenService:Create(dragBarCosmetic, TweenInfo.new(0.25, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {BackgroundTransparency = 0.7}):Play()
-	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {Size = useMobileSizing and UDim2.new(0, 650, 0, 275) or UDim2.new(0, 650, 0, 475)}):Play()
-	TweenService:Create(Topbar, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {Size = UDim2.new(0, 650, 0, 45)}):Play()
+	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {Size = useMobileSizing and UDim2.new(0, 800, 0, 275) or UDim2.new(0, 800, 0, 500)}):Play()
+	TweenService:Create(Topbar, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {Size = UDim2.new(0, 800, 0, 45)}):Play()
 	TabList.Visible = true
 	task.wait(0.2)
 
@@ -1345,8 +1387,8 @@ local function Unhide()
 	Debounce = true
 	Main.Position = UDim2.new(0.5, 0, 0.5, 0)
 	Main.Visible = true
-	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {Size = useMobileSizing and UDim2.new(0, 650, 0, 275) or UDim2.new(0, 650, 0, 475)}):Play()
-	TweenService:Create(Main.Topbar, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {Size = UDim2.new(0, 650, 0, 45)}):Play()
+	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {Size = useMobileSizing and UDim2.new(0, 800, 0, 275) or UDim2.new(0, 800, 0, 500)}):Play()
+	TweenService:Create(Main.Topbar, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {Size = UDim2.new(0, 800, 0, 45)}):Play()
 	TweenService:Create(Main.Shadow.Image, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {ImageTransparency = 0.6}):Play()
 	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {BackgroundTransparency = 0}):Play()
 	TweenService:Create(Main.Topbar, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {BackgroundTransparency = 0}):Play()
@@ -1630,7 +1672,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 	local Passthrough = false
 	Topbar.Title.Text = Settings.Name
 
-	Main.Size = UDim2.new(0, 650, 0, 100) -- Adjusted for vertical tabs
+	Main.Size = UDim2.new(0, 800, 0, 100) -- Hawk UI style - wider window
 	Main.Visible = true
 	Main.BackgroundTransparency = 1
 	if Main:FindFirstChild('Notice') then Main.Notice.Visible = false end
@@ -1994,10 +2036,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 	-- Modify for vertical tabs like Kavo/Hawk UI
 	TabList.Position = UDim2.new(0, 0, 0, 45) -- Position tabs on left side below topbar
-	TabList.Size = UDim2.new(0, 150, 1, -45) -- Fixed width sidebar
+	TabList.Size = UDim2.new(0, 180, 1, -45) -- Wider sidebar for Hawk UI style
 	TabList.BackgroundTransparency = 0
 	TabList.BackgroundColor3 = SelectedTheme.Background
-
+	
 	-- Create a UIListLayout for vertical tab arrangement
 	local TabListLayout = Instance.new("UIListLayout")
 	TabListLayout.Parent = TabList
@@ -2005,11 +2047,11 @@ function RayfieldLibrary:CreateWindow(Settings)
 	TabListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 	TabListLayout.VerticalAlignment = Enum.VerticalAlignment.Top
 	TabListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-	TabListLayout.Padding = UDim.new(0, 5)
-
+	TabListLayout.Padding = UDim.new(0, 8) -- More spacing for Hawk UI
+	
 	-- Adjust Elements position to be next to tabs
-	Elements.Position = UDim2.new(0, 160, 0, 45) -- Position content area to the right of tabs
-	Elements.Size = UDim2.new(1, -160, 1, -45) -- Adjust size to account for left sidebar
+	Elements.Position = UDim2.new(0, 190, 0, 45) -- Position content area to the right of tabs
+	Elements.Size = UDim2.new(1, -190, 1, -45) -- Adjust size to account for wider sidebar
 
 	-- Tab
 	local FirstTab = false
@@ -3542,7 +3584,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 	TweenService:Create(LoadingFrame.Subtitle, TweenInfo.new(0.2, Enum.EasingStyle.Exponential), {TextTransparency = 1}):Play()
 	TweenService:Create(LoadingFrame.Version, TweenInfo.new(0.2, Enum.EasingStyle.Exponential), {TextTransparency = 1}):Play()
 	task.wait(0.1)
-	TweenService:Create(Main, TweenInfo.new(0.6, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Size = useMobileSizing and UDim2.new(0, 650, 0, 275) or UDim2.new(0, 650, 0, 475)}):Play()
+	TweenService:Create(Main, TweenInfo.new(0.6, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Size = useMobileSizing and UDim2.new(0, 800, 0, 275) or UDim2.new(0, 800, 0, 500)}):Play()
 	TweenService:Create(Main.Shadow.Image, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {ImageTransparency = 0.6}):Play()
 
 	Topbar.BackgroundTransparency = 1
