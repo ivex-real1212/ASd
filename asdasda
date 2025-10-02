@@ -117,8 +117,8 @@ local function ripple(button, x, y)
 		circle.Parent = button
 		circle.ZIndex = 1000
 		circle.ImageColor3 = Color3.fromRGB(255, 255, 255)
-		local new_x = x - circle.AbsolutePosition.X
-		local new_y = y - circle.AbsolutePosition.Y
+		local new_x = x - button.AbsolutePosition.X
+		local new_y = y - button.AbsolutePosition.Y
 		circle.Position = UDim2.new(0, new_x, 0, new_y)
 		local size = 0
 		if button.AbsoluteSize.X > button.AbsoluteSize.Y then
@@ -421,8 +421,9 @@ function MyOwnUI:CreateWindow(config)
 				button.MouseLeave:Connect(function()
 					Tween(button, {BackgroundColor3 = originalColor}, 0.2)
 				end)
-				button.MouseButton1Down:Connect(function(x, y)
-					ripple(button, x, y)
+				button.MouseButton1Down:Connect(function()
+					local mousePos = UserInputService:GetMouseLocation()
+					ripple(button, mousePos.X, mousePos.Y)
 					Tween(button, {Size = UDim2.new(1, 0, 0, 28)}, 0.1)
 				end)
 				button.MouseButton1Up:Connect(function()
