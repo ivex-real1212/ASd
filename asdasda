@@ -793,8 +793,8 @@ TabListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 TabListLayout.Padding = UDim.new(0, 5)
 
 -- Adjust Elements position to be next to tabs
-Elements.Position = UDim2.new(0, 160, 0, 45) -- Position content area to the right of tabs
-Elements.Size = UDim2.new(1, -160, 1, -45) -- Adjust size to account for left sidebar
+Elements.Position = UDim2.new(0, 180, 0, 45) -- Position content area to the right of tabs
+Elements.Size = UDim2.new(1, -180, 1, -45) -- Adjust size to account for left sidebar
 
 local dragOffset = 255
 local dragOffsetMobile = 150
@@ -2050,8 +2050,8 @@ function RayfieldLibrary:CreateWindow(Settings)
 	TabListLayout.Padding = UDim.new(0, 8) -- More spacing for Hawk UI
 	
 	-- Adjust Elements position to be next to tabs
-	Elements.Position = UDim2.new(0, 190, 0, 45) -- Position content area to the right of tabs
-	Elements.Size = UDim2.new(1, -190, 1, -45) -- Adjust size to account for wider sidebar
+	Elements.Position = UDim2.new(0, 180, 0, 45) -- Position content area to the right of tabs
+	Elements.Size = UDim2.new(1, -180, 1, -45) -- Adjust size to account for wider sidebar
 
 	-- Tab
 	local FirstTab = false
