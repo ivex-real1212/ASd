@@ -1,5 +1,6 @@
 -- My Own UI Library - Single File Inspired by Fluent
 -- A custom Roblox UI library with window, tabs, sections, and elements
+-- Improved animations and interactions
 
 local MyOwnUI = {}
 
@@ -38,6 +39,14 @@ local function AddStroke(instance, color, thickness)
 	return stroke
 end
 
+-- Animation utilities
+local function Tween(instance, properties, duration, easingStyle, easingDirection)
+	local tweenInfo = TweenInfo.new(duration or 0.3, easingStyle or Enum.EasingStyle.Quad, easingDirection or Enum.EasingDirection.Out)
+	local tween = TweenService:Create(instance, tweenInfo, properties)
+	tween:Play()
+	return tween
+end
+
 -- Themes
 local Themes = {
 	Dark = {
@@ -45,14 +54,16 @@ local Themes = {
 		Secondary = Color3.fromRGB(35, 35, 35),
 		Tertiary = Color3.fromRGB(45, 45, 45),
 		Text = Color3.fromRGB(255, 255, 255),
-		Accent = Color3.fromRGB(100, 200, 255)
+		Accent = Color3.fromRGB(100, 200, 255),
+		Hover = Color3.fromRGB(120, 220, 255)
 	},
 	Light = {
 		Main = Color3.fromRGB(240, 240, 240),
 		Secondary = Color3.fromRGB(220, 220, 220),
 		Tertiary = Color3.fromRGB(200, 200, 200),
 		Text = Color3.fromRGB(0, 0, 0),
-		Accent = Color3.fromRGB(0, 100, 200)
+		Accent = Color3.fromRGB(0, 100, 200),
+		Hover = Color3.fromRGB(20, 120, 220)
 	}
 }
 
@@ -79,6 +90,31 @@ function MyOwnUI:CreateWindow(config)
 	}, {
 		Create("UICorner", {CornerRadius = UDim.new(0, 10)})
 	})
+
+	-- Make window draggable
+	local dragging = false
+	local dragStart = nil
+	local startPos = nil
+
+	titleBar.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			dragging = true
+			dragStart = input.Position
+			startPos = windowFrame.Position
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
+		end
+	end)
+
+	UserInputService.InputChanged:Connect(function(input)
+		if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+			local delta = input.Position - dragStart
+			windowFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+		end
+	end)
 
 	local titleBar = Create("Frame", {
 		Size = UDim2.new(1, 0, 0, 40),
@@ -211,7 +247,19 @@ function MyOwnUI:CreateWindow(config)
 					Create("UICorner", {CornerRadius = UDim.new(0, 4)})
 				})
 
-				button.MouseButton1Click:Connect(function()
+				-- Hover effects
+				local originalColor = Themes[theme].Accent
+				button.MouseEnter:Connect(function()
+					Tween(button, {BackgroundColor3 = Themes[theme].Hover}, 0.2)
+				end)
+				button.MouseLeave:Connect(function()
+					Tween(button, {BackgroundColor3 = originalColor}, 0.2)
+				end)
+				button.MouseButton1Down:Connect(function()
+					Tween(button, {Size = UDim2.new(1, 0, 0, 28)}, 0.1)
+				end)
+				button.MouseButton1Up:Connect(function()
+					Tween(button, {Size = UDim2.new(1, 0, 0, 30)}, 0.1)
 					if callback then callback() end
 				end)
 
@@ -245,9 +293,10 @@ function MyOwnUI:CreateWindow(config)
 				})
 
 				local toggled = default or false
+				toggleButton.BackgroundColor3 = toggled and Themes[theme].Accent or Themes[theme].Tertiary
 				toggleButton.MouseButton1Click:Connect(function()
 					toggled = not toggled
-					toggleButton.BackgroundColor3 = toggled and Themes[theme].Accent or Themes[theme].Tertiary
+					Tween(toggleButton, {BackgroundColor3 = toggled and Themes[theme].Accent or Themes[theme].Tertiary}, 0.2)
 					if callback then callback(toggled) end
 				end)
 
@@ -304,7 +353,7 @@ function MyOwnUI:CreateWindow(config)
 					if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
 						local percent = math.clamp((input.Position.X - sliderBar.AbsolutePosition.X) / sliderBar.AbsoluteSize.X, 0, 1)
 						local value = min + (max - min) * percent
-						sliderFill.Size = UDim2.new(percent, 0, 1, 0)
+						Tween(sliderFill, {Size = UDim2.new(percent, 0, 1, 0)}, 0.1)
 						sliderLabel.Text = sliderText .. ": " .. math.floor(value)
 						if callback then callback(value) end
 					end
@@ -317,13 +366,30 @@ function MyOwnUI:CreateWindow(config)
 			return section
 		end
 
-		tabButton.MouseButton1Click:Connect(function()
-			for _, t in pairs(window.Tabs) do
-				t.Content.Visible = false
-				t.Button.BackgroundColor3 = Themes[theme].Tertiary
+		-- Hover effects
+		tabButton.MouseEnter:Connect(function()
+			if tab ~= window.CurrentTab then
+				Tween(tabButton, {BackgroundColor3 = Themes[theme].Hover}, 0.2)
 			end
+		end)
+		tabButton.MouseLeave:Connect(function()
+			if tab ~= window.CurrentTab then
+				Tween(tabButton, {BackgroundColor3 = Themes[theme].Tertiary}, 0.2)
+			end
+		end)
+
+		tabButton.MouseButton1Click:Connect(function()
+			if window.CurrentTab then
+				Tween(window.CurrentTab.Content, {GroupTransparency = 1}, 0.3)
+				task.delay(0.15, function()
+					window.CurrentTab.Content.Visible = false
+				end)
+				Tween(window.CurrentTab.Button, {BackgroundColor3 = Themes[theme].Tertiary}, 0.2)
+			end
+			tabContent.GroupTransparency = 1
 			tabContent.Visible = true
-			tabButton.BackgroundColor3 = Themes[theme].Accent
+			Tween(tabContent, {GroupTransparency = 0}, 0.3)
+			Tween(tabButton, {BackgroundColor3 = Themes[theme].Accent}, 0.2)
 			window.CurrentTab = tab
 		end)
 
@@ -352,7 +418,7 @@ function MyOwnUI:Notify(title, text, duration)
 	duration = duration or 3
 	local notif = Create("Frame", {
 		Size = UDim2.new(0, 300, 0, 80),
-		Position = UDim2.new(1, -320, 1, -100),
+		Position = UDim2.new(1, 20, 1, -100),
 		BackgroundColor3 = Themes[CurrentTheme].Main,
 		Parent = ScreenGui
 	}, {
@@ -377,9 +443,11 @@ function MyOwnUI:Notify(title, text, duration)
 		})
 	})
 
-	TweenService:Create(notif, TweenInfo.new(0.5), {Position = UDim2.new(1, -320, 1, -100)}):Play()
+	-- Slide in
+	Tween(notif, {Position = UDim2.new(1, -320, 1, -100)}, 0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
 	task.wait(duration)
-	TweenService:Create(notif, TweenInfo.new(0.5), {Position = UDim2.new(1, 20, 1, -100)}):Play()
+	-- Slide out
+	Tween(notif, {Position = UDim2.new(1, 20, 1, -100)}, 0.5, Enum.EasingStyle.Back, Enum.EasingDirection.In)
 	task.wait(0.5)
 	notif:Destroy()
 end
